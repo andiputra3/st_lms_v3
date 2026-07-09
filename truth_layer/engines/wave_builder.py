@@ -35,10 +35,17 @@ class WaveBuilder:
     
     def _generate_wave_id(self, time_id: str) -> str:
         """
-        Generate unique wave ID: W{time_id}-{counter}
+        Generate unique wave ID: W{YYMMDDHHmm}-{counter}
+        Format: W2607081921-001 (not WP...)
         """
         self.wave_counter += 1
-        return f"W{time_id}-{self.wave_counter:03d}"
+        # Extract YYMMDDHHmm from point_id (e.g., P2607081921 -> 2607081921)
+        # Point ID format: P{YYMMDDHHmm}
+        if time_id.startswith('P'):
+            time_suffix = time_id[1:]  # Remove 'P' prefix
+        else:
+            time_suffix = time_id
+        return f"W{time_suffix}-{self.wave_counter:03d}"
     
     def _generate_signature(self, lines: List[SupertrendLine]) -> str:
         """
@@ -163,6 +170,11 @@ class WaveBuilder:
         member_ids = [line.line_id for line in lines]
         signature = self._generate_signature(lines)
         
+        # Determine dominant color (majority vote)
+        green_count = sum(1 for line in lines if line.color == "GREEN")
+        red_count = len(lines) - green_count
+        dominant_color = "GREEN" if green_count >= red_count else "RED"
+        
         # Use timestamp from first line's first version
         first_time_id = lines[0].versions[0].point_id
         
@@ -173,7 +185,8 @@ class WaveBuilder:
             pattern=pattern,
             sequence=sequence,
             members=member_ids,
-            signature=signature
+            signature=signature,
+            color=dominant_color
         )
     
     def get_all_waves(self) -> List[SupertrendWave]:

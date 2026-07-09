@@ -93,6 +93,7 @@ class LineBuilder:
             self.active_lines[line_type] = SupertrendLine(
                 line_id=line_id,
                 type=line_type,
+                color=point.color,  # Propagate color from point
                 current_price=point.price,
                 strength=1,
                 versions=[version],
@@ -112,6 +113,8 @@ class LineBuilder:
                 active_line.members.append(point.point_id)
                 active_line.current_price = point.price
                 active_line.strength += 1
+                # Update color to latest point's color
+                active_line.color = point.color
             else:
                 # Price jumped too far, close old line and create new one
                 self._close_active_line(line_type)
@@ -126,6 +129,7 @@ class LineBuilder:
                 self.active_lines[line_type] = SupertrendLine(
                     line_id=line_id,
                     type=line_type,
+                    color=point.color,  # Propagate color from point
                     current_price=point.price,
                     strength=1,
                     versions=[version],

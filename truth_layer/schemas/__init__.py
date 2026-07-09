@@ -27,6 +27,7 @@ class SupertrendLine(BaseModel):
     """
     line_id: str = Field(..., description="Unique identifier for this line")
     type: Literal["SUPPORT", "RESISTANCE"] = Field(..., description="Line type based on Supertrend color")
+    color: Literal["GREEN", "RED"] = Field(..., description="Supertrend color (GREEN=bullish, RED=bearish)")
     current_price: float = Field(..., description="Latest price level of this line")
     strength: int = Field(..., description="Number of points confirming this line")
     versions: List[LineVersion] = Field(default_factory=list, description="History of price movements")
@@ -37,6 +38,7 @@ class SupertrendLine(BaseModel):
             "example": {
                 "line_id": "L2607081920-SUP-001",
                 "type": "SUPPORT",
+                "color": "GREEN",
                 "current_price": 95000.0,
                 "strength": 3,
                 "versions": [
@@ -59,6 +61,7 @@ class SupertrendWave(BaseModel):
     sequence: List[str] = Field(default_factory=list, description="Sequence of line types forming the pattern")
     members: List[str] = Field(default_factory=list, description="List of line_ids contributing to this wave")
     signature: str = Field(..., description="Hash-like signature of the wave structure")
+    color: Literal["GREEN", "RED"] = Field(..., description="Dominant Supertrend color of the wave")
     
     class Config:
         json_schema_extra = {
@@ -67,6 +70,7 @@ class SupertrendWave(BaseModel):
                 "pattern": "UPTREND_LADDER",
                 "sequence": ["SUPPORT", "SUPPORT", "SUPPORT"],
                 "members": ["L2607081920-SUP-001", "L2607081930-SUP-002", "L2607081940-SUP-003"],
-                "signature": "SUP-SUP-SUP-94800-95200-95600"
+                "signature": "SUP-SUP-SUP-94800-95200-95600",
+                "color": "GREEN"
             }
         }
