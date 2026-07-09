@@ -122,6 +122,27 @@ class HiveMindHub:
                 stats["PENDING"] += 1
         return stats
 
+    def resolve_conflicts(self, proposals: List[Proposal]) -> List[Proposal]:
+        """
+        Conflict Resolver Sederhana:
+        Jika ada konflik (misal: satu worker BUY, yang lain WAIT), 
+        HiveMind meneruskan SEMUA proposal ke Portfolio Manager dengan metadata lengkap.
+        Portfolio Manager yang memutuskan alokasi akhir.
+        
+        Di Sprint 11 ini, kita hanya memastikan tidak ada duplikasi proposal dari worker yang sama.
+        """
+        # Group by worker_name untuk memastikan satu worker hanya punya satu proposal aktif per siklus
+        unique_proposals = {}
+        for p in proposals:
+            if p.worker_name not in unique_proposals:
+                unique_proposals[p.worker_name] = p
+            else:
+                # Jika ada duplikasi, ambil yang confidence-nya lebih tinggi
+                if p.confidence > unique_proposals[p.worker_name].confidence:
+                    unique_proposals[p.worker_name] = p
+        
+        return list(unique_proposals.values())
+
     # =====================================================================
     # AUDIT CHECKLIST: HiveMindHub
     # =====================================================================
@@ -130,4 +151,5 @@ class HiveMindHub:
     # [✓] Method submit_proposal hanya menyimpan objek, tidak memicu aksi eksternal.
     # [✓] Evidence log hanya dictionary in-memory (sesuai aturan no SQLite live state).
     # [✓] Worker tidak bisa saling memanggil - hanya melalui Hub.
+    # [✓] Conflict Resolver meneruskan semua proposal ke Portfolio Manager (tidak ada veto di sini).
     # =====================================================================
