@@ -118,6 +118,55 @@ def format_wib_string(wib_dt: datetime) -> str:
     return wib_normalized.strftime("%Y-%m-%d %H:%M:%S")
 
 
+def get_current_time_id(prefix: Literal["P", "L", "W"] = "P") -> str:
+    """
+    Get current time ID based on current WIB time.
+    
+    Args:
+        prefix: Prefix tipe objek ("P"=Point, "L"=Line, "W"=Wave).
+        
+    Returns:
+        String Time ID untuk waktu sekarang.
+    """
+    now_wib = datetime.now(WIB_TZ)
+    return generate_time_id(now_wib, prefix=prefix)
+
+
+def add_minutes_to_time_id(time_id: str, minutes: int) -> str:
+    """
+    Add minutes to a given Time ID and return new Time ID.
+    
+    Args:
+        time_id: Original Time ID (e.g., "P2607081920").
+        minutes: Minutes to add (can be negative).
+        
+    Returns:
+        New Time ID after adding minutes.
+    """
+    # Parse time_id: P2607081920 -> prefix=P, year=26, month=07, day=08, hour=19, min=20
+    if len(time_id) < 13:
+        raise ValueError(f"Invalid time_id format: {time_id}")
+    
+    prefix = time_id[0]
+    yy = int(time_id[1:3])
+    mm = int(time_id[3:5])
+    dd = int(time_id[5:7])
+    hh = int(time_id[7:9])
+    mi = int(time_id[9:11])
+    
+    # Determine century for year
+    year = 2000 + yy if yy < 50 else 1900 + yy
+    
+    # Create datetime in WIB
+    dt = datetime(year, mm, dd, hh, mi, 0, tzinfo=WIB_TZ)
+    
+    # Add minutes
+    new_dt = dt + timedelta(minutes=minutes)
+    
+    # Generate new time_id
+    return generate_time_id(new_dt, prefix=prefix)
+
+
 # =============================================================================
 # TEST CASES
 # =============================================================================
