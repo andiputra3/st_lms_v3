@@ -1,0 +1,93 @@
+{
+  "generated_at": "2026-07-09T19:26:59.052768",
+  "thresholds_used": {
+    "min_win_rate": 40.0,
+    "min_profit_factor": 1.0
+  },
+  "leaderboard": [
+    {
+      "worker_name": "PullbackWorker_v1",
+      "regime": "UPTREND_LADDER",
+      "score": 89.02,
+      "status": "LIVE",
+      "confidence_multiplier": 1.5,
+      "capital_weight": 0.84,
+      "metrics_summary": {
+        "win_rate": 87.5,
+        "profit_factor": 21.01,
+        "total_trades": 8
+      },
+      "evaluated_at": "2026-07-09T19:26:59.052695"
+    },
+    {
+      "worker_name": "GridBot_Alpha",
+      "regime": "SIDEWAY_CHOPPY",
+      "score": 87.4,
+      "status": "LIVE",
+      "confidence_multiplier": 1.5,
+      "capital_weight": 0.82,
+      "metrics_summary": {
+        "win_rate": 88.89,
+        "profit_factor": 11.82,
+        "total_trades": 9
+      },
+      "evaluated_at": "2026-07-09T19:26:59.052749"
+    },
+    {
+      "worker_name": "TrendFollower_v2",
+      "regime": "UPTREND_LADDER",
+      "score": 53.04,
+      "status": "LIVE",
+      "confidence_multiplier": 1.45,
+      "capital_weight": 0.42,
+      "metrics_summary": {
+        "win_rate": 62.5,
+        "profit_factor": 2.1,
+        "total_trades": 8
+      },
+      "evaluated_at": "2026-07-09T19:26:59.052726"
+    },
+    {
+      "worker_name": "PullbackWorker_v1",
+      "regime": "SIDEWAY_CHOPPY",
+      "score": 19.87,
+      "status": "REPLAY_ONLY",
+      "confidence_multiplier": 0.5,
+      "capital_weight": 0.0,
+      "metrics_summary": {
+        "win_rate": 25.0,
+        "profit_factor": 0.26,
+        "total_trades": 8
+      },
+      "evaluated_at": "2026-07-09T19:26:59.052710"
+    },
+    {
+      "worker_name": "TrendFollower_v2",
+      "regime": "SIDEWAY_CHOPPY",
+      "score": 12.9,
+      "status": "REPLAY_ONLY",
+      "confidence_multiplier": 0.5,
+      "capital_weight": 0.0,
+      "metrics_summary": {
+        "win_rate": 12.5,
+        "profit_factor": 0.08,
+        "total_trades": 8
+      },
+      "evaluated_at": "2026-07-09T19:26:59.052737"
+    },
+    {
+      "worker_name": "GridBot_Alpha",
+      "regime": "UPTREND_LADDER",
+      "score": 10.28,
+      "status": "REPLAY_ONLY",
+      "confidence_multiplier": 0.5,
+      "capital_weight": 0.0,
+      "metrics_summary": {
+        "win_rate": 11.11,
+        "profit_factor": 0.04,
+        "total_trades": 9
+      },
+      "evaluated_at": "2026-07-09T19:26:59.052758"
+    }
+  ]
+}
