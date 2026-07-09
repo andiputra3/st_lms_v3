@@ -7,31 +7,22 @@ __pycache__/
 .venv/
 venv/
 node_modules/
-*.egg-info/
-dist/
-build/
-*.so
-*.dylib
-*.dll
 
 # Logs and temp files
 *.log
 *.tmp
 *.swp
-*.swo
 
 # Environment
 .env
 .env.local
-.env.*
+*.env.*
 
 # Editors
 .vscode/
 .idea/
-*.swp
-*.swo
 
-# Coverage
+# Coverage reports
 .coverage
 coverage/
 htmlcov/
@@ -39,4 +30,9 @@ htmlcov/
 # Testing
 .pytest_cache/
 .mypy_cache/
+
+# Distribution artifacts
+dist/
+build/
+*.egg-info/
 ```
