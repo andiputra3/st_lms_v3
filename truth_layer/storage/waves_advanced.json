@@ -1,0 +1,26 @@
+[
+  {
+    "wave_id": "WP2607081921-001",
+    "pattern": "UPTREND_LADDER",
+    "sequence": [
+      "SUPPORT",
+      "SUPPORT"
+    ],
+    "members": [
+      "L2607081921-SUP-001",
+      "L2607081922-SUP-002"
+    ],
+    "signature": "SUP-SUP-95010-95986"
+  },
+  {
+    "wave_id": "WP2607081932-002",
+    "pattern": "SINGLE_LINE",
+    "sequence": [
+      "RESISTANCE"
+    ],
+    "members": [
+      "L2607081932-RES-001"
+    ],
+    "signature": "RES-94725"
+  }
+]

@@ -1,0 +1,13 @@
+[
+  {
+    "wave_id": "WP2607081921-001",
+    "pattern": "SINGLE_LINE",
+    "sequence": [
+      "SUPPORT"
+    ],
+    "members": [
+      "L2607081921-SUP-001"
+    ],
+    "signature": "SUP-95059"
+  }
+]
