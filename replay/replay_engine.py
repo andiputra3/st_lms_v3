@@ -20,6 +20,8 @@ from truth_layer.engines.wave_builder import WaveBuilder
 # PointEngine tidak ada, kita gunakan LineBuilder langsung untuk process tick
 from rag.structural_rag import StructuralRAG
 from workers.pullback_worker import PullbackWorker
+from workers.trend_following_worker import TrendFollowingWorker
+from workers.breakout_worker import BreakoutWorker
 from hivemind.hivemind_hub import HiveMindHub
 from portfolio.portfolio_manager import PortfolioManager
 from execution.position_manager import PositionManager
@@ -93,8 +95,20 @@ class ReplayEngine:
         self.line_builder = LineBuilder()
         self.wave_builder = WaveBuilder()
         self.rag = StructuralRAG()
-        self.worker = PullbackWorker()
+        
+        # Initialize MULTIPLE Workers (Sprint 11)
+        self.workers = [
+            PullbackWorker(),
+            TrendFollowingWorker(),
+            BreakoutWorker()
+        ]
+        
         self.hivemind = HiveMindHub()
+        
+        # Register workers ke HiveMind
+        for worker in self.workers:
+            self.hivemind.register_worker(worker.name, worker)
+        
         self.portfolio_manager = PortfolioManager(total_capital_usd=1000.0)
         self.position_manager = PositionManager()
         self.mock_execution_engine = MockExecutionEngine()
@@ -194,6 +208,8 @@ class ReplayEngine:
         """
         Proses satu candle melalui seluruh pipeline.
         Mengembalikan TradingCase jika ada trade yang ditutup pada candle ini.
+        
+        SPRINT 11 UPDATE: Memanggil SEMUA worker yang terdaftar, bukan hanya satu.
         """
         time_id = candle.get('time_id_close', candle.get('time_id', 'UNKNOWN'))
         current_price = candle.get('close', candle.get('close_price', 0))
@@ -204,12 +220,22 @@ class ReplayEngine:
         # Step 2: Update RAG
         self._update_rag_index(candle)
         
-        # Step 3: Worker analisis
-        proposal = self.worker.analyze(current_price, time_id, self.rag)
-        self.stats["total_proposals"] += 1
+        # Step 3: SEMUA Worker analisis (Multi-Worker Ecosystem)
+        all_proposals = []
+        for worker in self.workers:
+            proposal = worker.analyze(current_price, time_id, self.rag)
+            all_proposals.append(proposal)
+            self.stats["total_proposals"] += 1
         
-        # Step 4: HiveMind + Portfolio Manager
-        self.hivemind.submit_proposal(proposal)
+        # Step 4: HiveMind Conflict Resolver + Portfolio Manager
+        # Resolve conflicts (pastikan satu worker hanya satu proposal)
+        resolved_proposals = self.hivemind.resolve_conflicts(all_proposals)
+        
+        # Submit semua proposal ke HiveMind
+        for proposal in resolved_proposals:
+            self.hivemind.submit_proposal(proposal)
+        
+        # Dapatkan semua proposal dan alokasikan modal
         proposals = self.hivemind.get_pending_proposals()
         intents = self.portfolio_manager.allocate_capital(proposals)
         
