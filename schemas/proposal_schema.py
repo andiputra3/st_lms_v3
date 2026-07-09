@@ -3,6 +3,7 @@ ST-LMS v3 - Proposal Schema Definitions
 Pydantic models for Evidence and Proposal objects.
 Workers output ONLY Proposal objects - no direct trading execution.
 """
+import uuid
 from typing import List, Literal, Optional
 from pydantic import BaseModel, Field, field_validator
 
@@ -37,6 +38,7 @@ class Proposal(BaseModel):
     - confidence must be between 0.0 and 1.0
     - evidence must be list of FactCard-derived objects
     """
+    id: str = Field(default_factory=lambda: str(uuid.uuid4()), description="Unique ID for this proposal")
     worker_name: str = Field(..., description="Name of the worker that generated this proposal")
     type: Literal["ENTRY", "EXIT", "WAIT"] = Field(..., description="Type of proposal")
     symbol: str = Field(..., description="Trading symbol (e.g., BTCUSDT)")
