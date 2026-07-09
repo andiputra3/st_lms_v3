@@ -225,3 +225,32 @@ if __name__ == "__main__":
     print("\n" + "=" * 60)
     print("ALL TIME SERVICE TESTS PASSED")
     print("=" * 60)
+
+
+def timestamp_to_time_id(timestamp_unix: int, prefix: Literal["P", "L", "W"] = "P") -> str:
+    """
+    Convert Unix timestamp (seconds) to Time ID.
+    
+    Args:
+        timestamp_unix: Unix timestamp in seconds (UTC).
+        prefix: Prefix untuk Time ID.
+        
+    Returns:
+        Time ID string.
+    """
+    utc_dt = datetime.fromtimestamp(timestamp_unix, tz=UTC_TZ)
+    return utc_to_time_id(utc_dt, prefix=prefix)
+
+
+def utc_to_wib_timestamp(timestamp_ms: int) -> int:
+    """
+    Convert UTC timestamp (ms) to WIB timestamp (ms).
+    
+    Args:
+        timestamp_ms: Timestamp in milliseconds (UTC).
+        
+    Returns:
+        Timestamp in milliseconds (WIB).
+    """
+    # WIB is UTC+7, so add 7 hours in milliseconds
+    return timestamp_ms + (7 * 60 * 60 * 1000)
