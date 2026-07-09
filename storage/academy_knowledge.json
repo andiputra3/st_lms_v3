@@ -1,0 +1,96 @@
+{
+  "generated_at": "2026-07-09T19:26:59.052406",
+  "total_cases_analyzed": 50,
+  "knowledge": {
+    "PullbackWorker_v1__UPTREND_LADDER": {
+      "worker_name": "PullbackWorker_v1",
+      "regime": "UPTREND_LADDER",
+      "metrics": {
+        "total_trades": 8,
+        "wins": 7,
+        "losses": 1,
+        "win_rate": 87.5,
+        "profit_factor": 21.01,
+        "average_pnl": 20.09,
+        "total_pnl": 160.7
+      },
+      "sample_size": 8,
+      "last_updated": "2026-07-09T19:26:59.052185"
+    },
+    "PullbackWorker_v1__SIDEWAY_CHOPPY": {
+      "worker_name": "PullbackWorker_v1",
+      "regime": "SIDEWAY_CHOPPY",
+      "metrics": {
+        "total_trades": 8,
+        "wins": 2,
+        "losses": 6,
+        "win_rate": 25.0,
+        "profit_factor": 0.26,
+        "average_pnl": -11.06,
+        "total_pnl": -88.49
+      },
+      "sample_size": 8,
+      "last_updated": "2026-07-09T19:26:59.052247"
+    },
+    "TrendFollower_v2__UPTREND_LADDER": {
+      "worker_name": "TrendFollower_v2",
+      "regime": "UPTREND_LADDER",
+      "metrics": {
+        "total_trades": 8,
+        "wins": 5,
+        "losses": 3,
+        "win_rate": 62.5,
+        "profit_factor": 2.1,
+        "average_pnl": 6.2,
+        "total_pnl": 49.63
+      },
+      "sample_size": 8,
+      "last_updated": "2026-07-09T19:26:59.052289"
+    },
+    "TrendFollower_v2__SIDEWAY_CHOPPY": {
+      "worker_name": "TrendFollower_v2",
+      "regime": "SIDEWAY_CHOPPY",
+      "metrics": {
+        "total_trades": 8,
+        "wins": 1,
+        "losses": 7,
+        "win_rate": 12.5,
+        "profit_factor": 0.08,
+        "average_pnl": -13.68,
+        "total_pnl": -109.41
+      },
+      "sample_size": 8,
+      "last_updated": "2026-07-09T19:26:59.052327"
+    },
+    "GridBot_Alpha__SIDEWAY_CHOPPY": {
+      "worker_name": "GridBot_Alpha",
+      "regime": "SIDEWAY_CHOPPY",
+      "metrics": {
+        "total_trades": 9,
+        "wins": 8,
+        "losses": 1,
+        "win_rate": 88.89,
+        "profit_factor": 11.82,
+        "average_pnl": 9.23,
+        "total_pnl": 83.07
+      },
+      "sample_size": 9,
+      "last_updated": "2026-07-09T19:26:59.052364"
+    },
+    "GridBot_Alpha__UPTREND_LADDER": {
+      "worker_name": "GridBot_Alpha",
+      "regime": "UPTREND_LADDER",
+      "metrics": {
+        "total_trades": 9,
+        "wins": 1,
+        "losses": 8,
+        "win_rate": 11.11,
+        "profit_factor": 0.04,
+        "average_pnl": -22.43,
+        "total_pnl": -201.89
+      },
+      "sample_size": 9,
+      "last_updated": "2026-07-09T19:26:59.052399"
+    }
+  }
+}
