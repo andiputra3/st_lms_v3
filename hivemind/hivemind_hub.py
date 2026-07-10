@@ -26,7 +26,7 @@ class WorkerRegistration:
     """Registrasi worker di HiveMind."""
     worker_name: str
     worker_instance: Any  # Reference ke object worker (hanya untuk identifikasi)
-    registered_at: datetime = field(default_factory=datetime.utcnow)
+    time_id: Optional[str] = None  # Time ID saat registrasi (deterministik)
 
 
 @dataclass
@@ -35,7 +35,7 @@ class EvidenceRecord:
     proposal_id: str
     worker_name: str
     outcome: Optional[str] = None  # 'WIN', 'LOSS', 'PENDING' - diisi nanti oleh Executor
-    timestamp: datetime = field(default_factory=datetime.utcnow)
+    time_id: Optional[str] = None  # Time ID saat evidence tercatat (deterministik)
 
 
 class HiveMindHub:
@@ -59,24 +59,33 @@ class HiveMindHub:
         print(f"[HiveMind] Worker registered: {worker_name}")
         return True
 
-    def dispatch_task(self, task_type: str, payload: Dict[str, Any]) -> None:
+    def dispatch_task(self, task_type: str, payload: Dict[str, Any], time_id: Optional[str] = None) -> None:
         """
         Membagi tugas ke antrian. 
         Dalam arsitektur async nyata, ini akan memicu event ke worker.
         Di sini kita simpan sebagai log tugas yang harus dikerjakan.
+        
+        Args:
+            task_type: Jenis tugas (misal: 'analyze', 'scan')
+            payload: Data tugas
+            time_id: Time ID WIB untuk determinisme (opsional)
         """
         task = {
             "task_id": str(uuid.uuid4()),
             "type": task_type,
             "payload": payload,
-            "created_at": datetime.utcnow()
+            "time_id": time_id  # Gunakan time_id dari Replay Engine, bukan datetime.utcnow()
         }
         self._task_queue.append(task)
 
-    def submit_proposal(self, proposal: Proposal) -> str:
+    def submit_proposal(self, proposal: Proposal, time_id: Optional[str] = None) -> str:
         """
         Menerima Proposal dari Worker.
         Validasi dasar dan simpan ke hub.
+        
+        Args:
+            proposal: Objek Proposal dari worker
+            time_id: Time ID WIB untuk determinisme (opsional)
         """
         if not isinstance(proposal, Proposal):
             raise ValueError("HiveMind hanya menerima objek Proposal Pydantic.")
@@ -86,7 +95,8 @@ class HiveMindHub:
         # Catat untuk Evidence Hub (Outcome nanti diisi saat eksekusi selesai)
         record = EvidenceRecord(
             proposal_id=proposal.id,
-            worker_name=proposal.worker_name
+            worker_name=proposal.worker_name,
+            time_id=time_id  # Gunakan time_id dari Replay Engine
         )
         self._evidence_log[proposal.id] = record
         
